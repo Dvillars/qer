@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model IEnumerable<TravelBlog.Models.Destination>
+
+@using System.Security.Claims
+
+<h2>Authentication with Identity</h2>
+
+<hr />
+@if (User.Identity.IsAuthenticated)
+{
+
+    <p>Hello @User.Identity.Name!</p>
+    <p>@Html.ActionLink("Create Post", "Create", "Account")</p>
+    @using (Html.BeginForm("LogOff", "Account"))
+    {
+        <input type="submit" class="btn btn-default" value="Log Out" />
+
+    }
+}
+else
+{
+    <p>@Html.ActionLink("Register", "Register")</p>
+    <p>@Html.ActionLink("Log in", "Login")</p>
+}
+
+<div class="post-container">
+@foreach(var destination in Model)
+{
+    <div class="post-tile">
+    <input type="hidden" value="@destination.DestinationId" class="hidden-id"/>
+
+    <h3>@destination.Name</h3>
+    <p>@destination.Description</p>
+    <span id="@destination.DestinationId"></span>
+    <button class="upvote">Upvote</button>
+    <button class="downvote">Downvote</button>
+    </div>
+}
+</div>
